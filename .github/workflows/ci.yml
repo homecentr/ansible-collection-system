@@ -14,5 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
+      - name: Install dependencies
+        run: |
+          pip install ansible ansible-lint
+
       - name: Lint ansible files
         run: yarn lint
