@@ -8,7 +8,7 @@
     file: ./admin-user.yml
   loop: "{{ users_admin_users }}"
   loop_control:
-    loop_var: admin_user
+    loop_var: users_admin
 
 - name: Configure root user
   ansible.builtin.include_tasks:
