@@ -8,7 +8,7 @@
 - name: Copy apt-check script
   ansible.builtin.copy:
     dest: /usr/local/bin/apt-check
-    mode: 0755
+    mode: "0755"
     owner: root
     group: root
     content: "{{ lookup('file', 'apt-check') }}"
@@ -23,7 +23,7 @@
     dest: /etc/update-motd.d/{{ item }}
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
   with_items: "{{ motd_common_scripts }}"
 
 - name: Get lolcat full path
@@ -32,7 +32,7 @@
     cmd: "which lolcat"
   environment:
     PATH: "{{ ansible_env.PATH }}:/usr/games"
-  register: lolcat_lookup
+  register: motd_lolcat_lookup
   changed_when: false
 
 - name: Create common scripts from templates
@@ -41,8 +41,8 @@
     dest: /etc/update-motd.d/{{ item }}
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
     force: true
   with_items: "{{ motd_common_scripts_templates }}"
   vars:
-    lolcat_path: "{{ lolcat_lookup.stdout }}"
+    motd_lolcat_path: "{{ motd_lolcat_lookup.stdout }}"

@@ -3,9 +3,12 @@
     name: sudo
     state: present
 
-- name: Create admin user
+- name: Create admin users
   ansible.builtin.include_tasks:
     file: ./admin-user.yml
+  loop: "{{ users_admin_users }}"
+  loop_control:
+    loop_var: admin_user
 
 - name: Configure root user
   ansible.builtin.include_tasks:

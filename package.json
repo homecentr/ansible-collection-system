@@ -1,0 +1,11 @@
+{
+  "name": "@homecentr/ansible-collection.system",
+  "version": "1.0.0",
+  "repository": "git@github.com:homecentr/ansible-collection-system.git",
+  "author": "LH <me@lholota.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "lint": "ansible-lint"
+  }
+}

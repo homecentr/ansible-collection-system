@@ -4,5 +4,5 @@
     content: lynis_hardening_ignore_list
     owner: root
     group: root
-    mode: 0640
+    mode: "0640"
   when: lynis_hardening_ignore_list != null

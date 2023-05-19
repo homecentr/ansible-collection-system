@@ -4,13 +4,13 @@
   ansible.builtin.lineinfile:
     path: /etc/sudoers
     state: present
-    regexp: "^{{ users_admin_username }}"
-    line: "{{ users_admin_username }} ALL=(ALL) NOPASSWD: ALL"
+    regexp: "^{{ users_admin.username }}"
+    line: "{{ users_admin.username }} ALL=(ALL) NOPASSWD: ALL"
     validate: 'visudo -cf %s'
 
 - name: "Create admin user"
   ansible.builtin.user:
-    name: "{{ users_admin_username }}"
+    name: "{{ users_admin.username }}"
     shell: /bin/bash
     password: '*' # Disables user's password
     groups:
@@ -19,15 +19,15 @@
 
 - name: Set admin user SSH keys
   ansible.posix.authorized_key:
-    user: "{{ users_admin_username }}"
+    user: "{{ users_admin.username }}"
     state: present
     key: "{{ item }}"
-  with_items: "{{ users_admin_public_keys }}"
+  with_items: "{{ users_admin.public_keys }}"
 
 - name: "Tighten admin user's home directory permissions"
   ansible.builtin.file:
-    path: "/home/{{ users_admin_username }}"
+    path: "/home/{{ users_admin.username }}"
     state: directory
-    owner: "{{ users_admin_username }}"
-    group: "{{ users_admin_username }}"
-    mode: 0750
+    owner: "{{ users_admin.username }}"
+    group: "{{ users_admin.username }}"
+    mode: "0750"

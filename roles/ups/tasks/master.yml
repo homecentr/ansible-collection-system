@@ -3,7 +3,7 @@
   ansible.builtin.copy:
     dest: /etc/nut/ups.conf
     force: true
-    mode: 0640
+    mode: "0640"
     owner: root
     group: nut
     content: "{{ lookup('template', 'ups.conf.j2') }}"
@@ -14,7 +14,7 @@
     state: touch
     owner: root
     group: nut
-    mode: 0640
+    mode: "0640"
   # yamllint disable rule:line-length
   with_items: "{{ ups_devices | selectattr('monitored_by', 'equalto', inventory_hostname) | selectattr('driver', 'equalto', 'dummy-ups') | map(attribute='port') }}"
   # yamllint enable rule:line-length
@@ -24,7 +24,7 @@
   ansible.builtin.copy:
     dest: /etc/nut/upsd.conf
     force: true
-    mode: 0640
+    mode: "0640"
     owner: root
     group: nut
     content: "{{ lookup('template', 'upsd.conf.j2') }}"
@@ -34,7 +34,7 @@
   ansible.builtin.copy:
     dest: /etc/nut/upsd.users
     force: true
-    mode: 0640
+    mode: "0640"
     owner: root
     group: nut
     content: "{{ lookup('template', 'upsd.users.j2') }}"

@@ -23,7 +23,7 @@
     dest: /usr/bin/scan-clamav
     owner: root
     group: root
-    mode: 0700
+    mode: "0700"
     # yamllint disable rule:line-length
     content: |
       #!/bin/bash

@@ -5,12 +5,12 @@
 
 - name: Check if node is hosting a ups device
   ansible.builtin.set_fact:
-    hosted_ups_devices: "{{ ups_devices | selectattr('monitored_by', 'equalto', inventory_hostname) | map(attribute='name') }}"
+    ups_hosted_devices: "{{ ups_devices | selectattr('monitored_by', 'equalto', inventory_hostname) | map(attribute='name') }}"
 
 - name: Setup master server
   ansible.builtin.include_tasks:
     file: master.yml
-  when: (hosted_ups_devices | length) > 0
+  when: (ups_hosted_devices | length) > 0
 
 - name: Set facts
   ansible.builtin.set_fact:
@@ -21,18 +21,18 @@
   ansible.builtin.copy:
     dest: /etc/nut/nut.conf
     force: true
-    mode: 0640
+    mode: "0640"
     owner: root
     group: nut
     content: |
-      MODE={{ 'netserver' if (hosted_ups_devices | length) > 0 else 'netclient' }}
+      MODE={{ 'netserver' if (ups_hosted_devices | length) > 0 else 'netclient' }}
 
 - name: Configure Network UPS Tools Monitor
   notify: Restart ups_monitor
   ansible.builtin.copy:
     dest: /etc/nut/upsmon.conf
     force: true
-    mode: 0640
+    mode: "0640"
     owner: root
     group: nut
     content: "{{ lookup('template', 'upsmon.conf.j2') }}"
@@ -48,4 +48,4 @@
     content: "{{ ups_name }}@{{ ups_server }}"
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"

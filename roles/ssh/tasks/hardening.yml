@@ -10,7 +10,7 @@
     line: "{{ item.line }}"
     state: present
     validate: 'sshd -T -f %s'
-    mode: 0644
+    mode: "0644"
   with_items:
     - regexp: "^PasswordAuthentication"
       line: "PasswordAuthentication {{ ssh_allow_password_login }}"
@@ -38,7 +38,7 @@
     state: present
     create: true
     validate: 'sshd -T -f %s'
-    mode: 0644
+    mode: "0644"
   when: ssh_allowed_users | length > 0
   notify: Restart ssh
 
@@ -55,5 +55,5 @@
     backup: true
     state: present
     validate: 'sshd -T -f %s'
-    mode: 0644
+    mode: "0644"
   notify: Restart ssh

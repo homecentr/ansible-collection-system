@@ -10,5 +10,5 @@
     dest: /etc/update-motd.d/{{ item }}
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
   with_items: '{{ motd_hw_scripts }}'

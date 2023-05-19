@@ -1,7 +1,7 @@
 - name: Cron directories
   ansible.builtin.file:
     path: "/etc/cron.{{ item }}"
-    mode: 0700
+    mode: "0700"
   with_items:
     - hourly
     - weekly

@@ -4,14 +4,17 @@ version: 1.0.0
 readme: README.md
 
 authors:
-- Lukas Holota <me@lholota.com>
+  - Lukas Holota <me@lholota.com>
 
 description: Ansible roles used for all systems in my homelab
 
 license:
-- MIT
+  - MIT
 
-tags: []
+tags:
+  - linux
+  - tools
+  - infrastructure
 
 # Collections that this collection requires to be installed for it to be usable. The key of the dict is the
 # collection label 'namespace.name'. The value is a version range
