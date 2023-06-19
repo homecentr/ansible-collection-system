@@ -45,7 +45,7 @@
 - name: Dump the ups name to /etc/ups
   ansible.builtin.copy:
     dest: /etc/ups
-    content: "{{ ups_name }}@{{ ups_server }}"
+    content: "{{ ups_name }}@{{ hostvars[ups_server]['ansible_hostname'] }}"
     owner: root
     group: root
     mode: "0644"
