@@ -1,6 +1,0 @@
-exclude_paths:
-  - .cache/
-  - .github/
-  - node_modules/
-  - "**/*.sops.yml"
-  - ".sops.yaml"
