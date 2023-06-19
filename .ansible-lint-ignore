@@ -1,0 +1,3 @@
+galaxy.yml galaxy[no-changelog]
+roles/clamav/tasks/main.yml var-naming[no-role-prefix]
+roles/motd/tasks/setup-common-scripts.yml var-naming[no-role-prefix]
