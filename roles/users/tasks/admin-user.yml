@@ -17,7 +17,10 @@
       - sudo
     state: present
 
+  # TODO: Add to group in separate task ???
+
 - name: Set admin user SSH keys
+  no_log: true
   ansible.posix.authorized_key:
     user: "{{ users_admin.username }}"
     state: present

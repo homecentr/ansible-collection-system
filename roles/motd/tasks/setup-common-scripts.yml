@@ -3,6 +3,7 @@
     name:
       - figlet
       - lolcat
+      - lsb-release # Required for apt-check
     state: present
 
 - name: Copy apt-check script
