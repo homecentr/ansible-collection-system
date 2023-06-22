@@ -19,4 +19,6 @@ jobs:
           pip install ansible ansible-lint
 
       - name: Lint ansible files
-        run: yarn lint
+        run: |
+          ansible-galaxy install -r requirements.yml
+          yarn lint
