@@ -17,6 +17,12 @@
     clamav_freshclam_daemon_state: started
     clamav_freshclam_daemon_enabled: true
 
+- name: Disable On-Access scan service
+  ansible.builtin.service:
+    name: clamav-clamonacc
+    enabled: false
+    state: stopped
+
 - name: "Create scan script"
   when: clamav_scanned_dirs is defined
   ansible.builtin.copy:
