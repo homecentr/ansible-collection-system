@@ -3,19 +3,19 @@
     name: s-nail
     state: present
 
-- name: Install and configure ClamAV
-  ansible.builtin.import_role:
-    name: geerlingguy.clamav
-  vars:
-    clamav_daemon_configuration_changes:
-      - regexp: '^.*Example$'
-        state: absent
-      - regexp: '^.*LocalSocket .*$'
-        line: 'LocalSocket {{ clamav_daemon_localsocket }}'
-    clamav_daemon_state: stopped
-    clamav_daemon_enabled: false
-    clamav_freshclam_daemon_state: started
-    clamav_freshclam_daemon_enabled: true
+# - name: Install and configure ClamAV
+#   ansible.builtin.import_role:
+#     name: geerlingguy.clamav
+#   vars:
+#     clamav_daemon_configuration_changes:
+#       - regexp: '^.*Example$'
+#         state: absent
+#       - regexp: '^.*LocalSocket .*$'
+#         line: 'LocalSocket {{ clamav_daemon_localsocket }}'
+#     clamav_daemon_state: stopped
+#     clamav_daemon_enabled: false
+#     clamav_freshclam_daemon_state: started
+#     clamav_freshclam_daemon_enabled: true
 
 - name: Disable On-Access scan service
   ansible.builtin.service:
