@@ -1,8 +1,13 @@
+- name: List cron directories
+  register: lynis_hardening_cron_directories
+  ansible.builtin.find:
+    paths: /etc
+    patterns: "^cron\\.(.*)$"
+    recurse: false
+
 - name: Cron directories
   ansible.builtin.file:
-    path: "/etc/cron.{{ item }}"
+    path: "/etc/{{ item.path }}"
     mode: "0700"
-  with_items:
-    - hourly
-    - weekly
-    - monthly
+  loop: "{{ lynis_hardening_cron_directories.files }}"
+
