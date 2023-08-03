@@ -5,6 +5,10 @@
     patterns: "^cron\\.(.*)$"
     recurse: false
 
+- name: Debug
+  debug:
+    var: lynis_hardening_cron_directories
+
 - name: Cron directories
   ansible.builtin.file:
     path: "/etc/{{ item.path }}"
