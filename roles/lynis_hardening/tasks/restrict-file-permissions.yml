@@ -6,13 +6,9 @@
     file_type: directory
     recurse: false
 
-- name: Debug
-  debug:
-    var: lynis_hardening_cron_directories
-
 - name: Cron directories
   ansible.builtin.file:
-    path: "{{ item.path }}"
+    path: "{{ item }}"
     mode: "0700"
-  loop: "{{ lynis_hardening_cron_directories.files }}"
+  loop: "{{ lynis_hardening_cron_directories.files | map(attribute='path') }}"
 
