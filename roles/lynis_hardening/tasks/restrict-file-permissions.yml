@@ -2,7 +2,8 @@
   register: lynis_hardening_cron_directories
   ansible.builtin.find:
     paths: /etc
-    patterns: "^cron\\.(.*)$"
+    patterns: "cron.*"
+    file_type: directory
     recurse: false
 
 - name: Debug
