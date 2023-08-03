@@ -11,4 +11,3 @@
     path: "{{ item }}"
     mode: "0700"
   loop: "{{ lynis_hardening_cron_directories.files | map(attribute='path') }}"
-
