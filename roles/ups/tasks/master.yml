@@ -39,10 +39,11 @@
     group: nut
     content: "{{ lookup('template', 'upsd.users.j2') }}"
 
-- name: Start the driver service
+- name: Start the driver service for each device
   ansible.builtin.service:
-    name: nut-driver
+    name: "nut-driver@{{ item }}"
     state: started
+  loop: "{{ ups_devices | selectattr('monitored_by', 'equalto', inventory_hostname) | map(attribute='name') }}"
 
 - name: Start the ups server
   ansible.builtin.service:
