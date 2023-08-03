@@ -12,7 +12,7 @@
 
 - name: Cron directories
   ansible.builtin.file:
-    path: "/etc/{{ item.path }}"
+    path: "{{ item.path }}"
     mode: "0700"
   loop: "{{ lynis_hardening_cron_directories.files }}"
 
