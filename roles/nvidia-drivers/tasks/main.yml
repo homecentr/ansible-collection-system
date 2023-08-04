@@ -1,0 +1,24 @@
+- name: Get Debian version codename
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      grep 'VERSION=' /etc/os-release | grep -Eo '[a-z]+'
+  args:
+    executable: /bin/bash
+  register: nvidia_drivers_bebian_codename
+  changed_when: false
+
+- name: Add Gluster repository into sources
+  ansible.builtin.apt_repository:
+    repo: deb http://deb.debian.org/debian/ bookworm non-free non-free-firmware
+    state: present
+    update_cache: true
+
+- name: Install nVidia packages
+  notify: Reboot machine
+  ansible.builtin.package:
+    name:
+      - nvidia-detect
+      - nvidia-driver
+      - firmware-misc-nonfree
+    state: present
