@@ -14,6 +14,12 @@
     state: present
     update_cache: true
 
+- name: Install Kernel headers
+  notify: Reboot machine
+  ansible.builtin.package:
+    name: linux-headers-amd64
+    state: present
+
 - name: Install nVidia packages
   notify: Reboot machine
   ansible.builtin.package:
