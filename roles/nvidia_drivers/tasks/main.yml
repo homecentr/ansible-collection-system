@@ -5,4 +5,4 @@
 - name: Install Container runtime
   ansible.builtin.include_tasks:
     file: containers.yml
-  when: nvidia_drivers_install_containers == true
+  when: nvidia_drivers_install_containers
