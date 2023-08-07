@@ -17,7 +17,7 @@
     - libnvidia-container
     - nvidia-container-runtime
 
-- name: Install nVidia packages
+- name: Install nVidia container packages
   notify: Reboot machine
   ansible.builtin.apt:
     name:

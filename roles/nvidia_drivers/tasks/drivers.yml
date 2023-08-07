@@ -28,12 +28,18 @@
     name: linux-headers-amd64
     state: present
 
+- name: Check for installed packages
+  ansible.builtin.package_facts:
+    manager: auto
+
 - name: Install firmwares
   ansible.builtin.package:
     name: firmware-misc-nonfree
     state: present
+  # This package conflicts with the native pve-firmware package, so skip this step if it's installed
+  when: (ansible_facts.packages['pve-firmware'] | length) == 0
 
-- name: Install nVidia packages
+- name: Install nVidia driver packages
   notify: Reboot machine
   ansible.builtin.package:
     name:
