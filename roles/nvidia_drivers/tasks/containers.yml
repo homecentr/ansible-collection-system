@@ -9,7 +9,7 @@
 
 - name: Add nVidia repositories
   ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/etc/apt/keyrings/nvidia-docker.key] https://nvidia.github.io/{{ item }}/stable/debian10/amd64"
+    repo: "deb [signed-by=/etc/apt/keyrings/{{ item }}.key] https://nvidia.github.io/{{ item }}/stable/debian10/amd64 /"
     state: present
     update_cache: false
     filename: nvidia-container
