@@ -8,7 +8,7 @@
   register: nvidia_drivers_bebian_codename
   changed_when: false
 
-- name: Add Gluster repository into sources
+- name: Add Debian non-free repository into sources
   ansible.builtin.apt_repository:
     repo: deb http://deb.debian.org/debian/ bookworm non-free non-free-firmware
     state: present
@@ -26,5 +26,5 @@
     name:
       - nvidia-detect
       - nvidia-driver
-      - firmware-misc-nonfree
+      # - firmware-misc-nonfree
     state: present
