@@ -1,8 +1,10 @@
-- name: Add nVidia docker repository key
+- name: Add nVidia repository keys
   ansible.builtin.apt_key:
-    url: https://nvidia.github.io/nvidia-docker/gpgkey
-    keyring: /etc/apt/keyrings/nvidia-docker.key
+    url: https://nvidia.github.io/{{ item }}/gpgkey
+    keyring: /etc/apt/keyrings/{{ item }}.key
     state: present
+  loop:
+    - libnvidia-container
 
 - name: Add nVidia docker repositories
   ansible.builtin.apt_repository:
@@ -11,9 +13,8 @@
     update_cache: false
     filename: nvidia-docker
   loop:
-    - https://nvidia.github.io/libnvidia-container/stable/debian10/$(ARCH)
-    - https://nvidia.github.io/nvidia-container-runtime/stable/debian10/$(ARCH)
-    - https://nvidia.github.io/nvidia-docker/debian10/$(ARCH)
+    - https://nvidia.github.io/libnvidia-container/stable/debian10/amd64
+    - https://nvidia.github.io/nvidia-container-runtime/stable/debian10/amd64
 
 - name: Install nVidia packages
   notify: Reboot machine
