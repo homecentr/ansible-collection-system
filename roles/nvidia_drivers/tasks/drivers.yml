@@ -20,6 +20,11 @@
     name: linux-headers-amd64
     state: present
 
+- name: Install firmwares
+  ansible.builtin.package:
+    name: firmware-misc-nonfree
+    state: present
+
 - name: Install nVidia packages
   notify: Reboot machine
   ansible.builtin.package:
