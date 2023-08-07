@@ -5,16 +5,17 @@
     state: present
   loop:
     - libnvidia-container
+    - nvidia-container-runtime
 
-- name: Add nVidia docker repositories
+- name: Add nVidia repositories
   ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/etc/apt/keyrings/nvidia-docker.key] {{ item }}"
+    repo: "deb [signed-by=/etc/apt/keyrings/nvidia-docker.key] https://nvidia.github.io/{{ item }}/stable/debian10/amd64"
     state: present
     update_cache: false
-    filename: nvidia-docker
+    filename: nvidia-container
   loop:
-    - https://nvidia.github.io/libnvidia-container/stable/debian10/amd64
-    - https://nvidia.github.io/nvidia-container-runtime/stable/debian10/amd64
+    - libnvidia-container
+    - nvidia-container-runtime
 
 - name: Install nVidia packages
   notify: Reboot machine
