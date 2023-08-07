@@ -1,30 +1,8 @@
-- name: Get Debian version codename
-  ansible.builtin.shell:
-    cmd: |
-      set -o pipefail
-      grep 'VERSION=' /etc/os-release | grep -Eo '[a-z]+'
-  args:
-    executable: /bin/bash
-  register: nvidia_drivers_bebian_codename
-  changed_when: false
+- name: Install nvidia drivers
+  ansible.builtin.include_tasks:
+    file: drivers.yml
 
-- name: Add Debian non-free repository into sources
-  ansible.builtin.apt_repository:
-    repo: deb http://deb.debian.org/debian/ bookworm non-free non-free-firmware
-    state: present
-    update_cache: true
-
-- name: Install Kernel headers
-  notify: Reboot machine
-  ansible.builtin.package:
-    name: linux-headers-amd64
-    state: present
-
-- name: Install nVidia packages
-  notify: Reboot machine
-  ansible.builtin.package:
-    name:
-      - nvidia-detect
-      - nvidia-driver
-      # - firmware-misc-nonfree
-    state: present
+- name: Install Container runtime
+  ansible.builtin.include_tasks:
+    file: containers.yml
+  when: nvidia_drivers_install_containers == true
