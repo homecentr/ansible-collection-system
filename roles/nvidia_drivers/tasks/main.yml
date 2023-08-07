@@ -1,0 +1,8 @@
+- name: Install nvidia drivers
+  ansible.builtin.include_tasks:
+    file: drivers.yml
+
+- name: Install Container runtime
+  ansible.builtin.include_tasks:
+    file: containers.yml
+  when: nvidia_drivers_install_containers

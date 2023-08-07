@@ -1,0 +1,48 @@
+- name: Get Debian version codename
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      grep 'VERSION=' /etc/os-release | grep -Eo '[a-z]+'
+  args:
+    executable: /bin/bash
+  register: nvidia_drivers_bebian_codename
+  changed_when: false
+
+- name: Add Debian non-free repository into sources
+  ansible.builtin.apt_repository:
+    repo: deb http://deb.debian.org/debian/ bookworm non-free non-free-firmware
+    state: present
+    filename: debian-non-free
+    update_cache: true
+
+- name: Add Debian contrib repository into sources
+  ansible.builtin.apt_repository:
+    repo: deb http://deb.debian.org/debian/ bookworm contrib
+    state: present
+    filename: debian-contrib
+    update_cache: true
+
+- name: Install Kernel headers
+  notify: Reboot machine
+  ansible.builtin.package:
+    name: linux-headers-amd64
+    state: present
+
+- name: Check for installed packages
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: Install firmwares
+  ansible.builtin.package:
+    name: firmware-misc-nonfree
+    state: present
+  # This package conflicts with the native pve-firmware package, so skip this step if it's installed
+  when: "'pve-firmware' not in ansible_facts.packages"
+
+- name: Install nVidia driver packages
+  notify: Reboot machine
+  ansible.builtin.package:
+    name:
+      - nvidia-detect
+      - nvidia-driver
+    state: present
