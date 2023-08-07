@@ -12,6 +12,14 @@
   ansible.builtin.apt_repository:
     repo: deb http://deb.debian.org/debian/ bookworm non-free non-free-firmware
     state: present
+    filename: debian-non-free
+    update_cache: true
+
+- name: Add Debian contrib repository into sources
+  ansible.builtin.apt_repository:
+    repo: deb http://deb.debian.org/debian/ bookworm contrib
+    state: present
+    filename: debian-contrib
     update_cache: true
 
 - name: Install Kernel headers
