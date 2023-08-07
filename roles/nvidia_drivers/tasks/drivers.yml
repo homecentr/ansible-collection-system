@@ -37,7 +37,7 @@
     name: firmware-misc-nonfree
     state: present
   # This package conflicts with the native pve-firmware package, so skip this step if it's installed
-  when: (ansible_facts.packages['pve-firmware'] | length) == 0
+  when: "'pve-firmware' not in ansible_facts.packages"
 
 - name: Install nVidia driver packages
   notify: Reboot machine
