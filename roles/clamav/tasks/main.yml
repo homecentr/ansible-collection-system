@@ -21,6 +21,14 @@
   ansible.builtin.service:
     name: clamav-clamonacc
     enabled: false
+    masked: true
+    state: stopped
+
+- name: Disable ClamAV daemon service
+  ansible.builtin.systemd:
+    name: clamav-daemon.service
+    enabled: false
+    masked: true
     state: stopped
 
 - name: "Create scan script"
