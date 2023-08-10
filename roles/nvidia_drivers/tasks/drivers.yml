@@ -45,4 +45,5 @@
     name:
       - nvidia-detect
       - nvidia-driver
+      - nvidia-tesla-driver
     state: present
