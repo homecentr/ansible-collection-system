@@ -1,1 +1,2 @@
+nvidia_drivers_driver_package_name: nvidia-driver
 nvidia_drivers_install_containers: false
