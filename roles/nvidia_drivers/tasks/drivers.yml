@@ -39,11 +39,10 @@
   # This package conflicts with the native pve-firmware package, so skip this step if it's installed
   when: "'pve-firmware' not in ansible_facts.packages"
 
-- name: Install nVidia driver packages
+- name: Install general nVidia driver packages
   notify: Reboot machine
   ansible.builtin.package:
     name:
       - nvidia-detect
-      - nvidia-driver
-      - nvidia-tesla-driver
+      - "{{ nvidia_drivers_driver_package_name }}"
     state: present
