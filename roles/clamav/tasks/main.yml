@@ -18,7 +18,7 @@
     clamav_freshclam_daemon_enabled: true
 
 - name: Disable On-Access scan service
-  ansible.builtin.service:
+  ansible.builtin.systemd_service:
     name: clamav-clamonacc
     enabled: false
     masked: true
