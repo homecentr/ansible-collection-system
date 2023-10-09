@@ -1,0 +1,19 @@
+- name: Configure nameservers
+  when: network_nameservers is defined
+  ansible.builtin.copy:
+    content: "{{ lookup('template', 'resolv.conf.j2') }}"
+    dest: /etc/resolv.conf
+    mode: 0644
+    owner: root
+    group: root
+    force: true
+
+- name: Configure network interfaces
+  when: network_interfaces is defined
+  ansible.builtin.include_tasks:
+    file: interface.yml
+  loop: "{{ network_interfaces | dict2items }}"
+  loop_control:
+    loop_var: interface
+  vars:
+    interface_name: "{{ interface.key }}"
