@@ -16,7 +16,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install ansible ansible-lint
+          pip install ansible ansible-lint==6.20.3
 
       - name: Lint ansible files
         run: |
