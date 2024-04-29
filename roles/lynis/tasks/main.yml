@@ -6,7 +6,7 @@
 - name: Add Lynis apt key
   ansible.builtin.get_url:
     url: http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x013baa07180c50a7101097ef9de922f1c2fde6c4
-    dest: /etc/apt/keyrings/lynis.gpg
+    dest: /etc/apt/trusted.gpg.d/lynis.gpg
 
 - name: "Install apt https support"
   ansible.builtin.apt:
@@ -15,7 +15,7 @@
 
 - name: "Add Lynis repository"
   ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/etc/apt/keyrings/lynis.gpg] https://packages.cisofy.com/community/lynis/deb/ stable main"
+    repo: "deb [signed-by=/etc/apt/trusted.gpg.d/lynis.gpg] https://packages.cisofy.com/community/lynis/deb/ stable main"
     filename: lynis
     state: present
 
