@@ -1,4 +1,0 @@
-- name: Install required packages
-  ansible.builtin.apt:
-    name: unattended-upgrades
-    state: present
