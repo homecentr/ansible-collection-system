@@ -1,4 +1,0 @@
-- name: Reboot machine
-  ansible.builtin.reboot:
-    reboot_timeout: 500
-  throttle: 1
