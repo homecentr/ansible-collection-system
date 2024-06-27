@@ -63,5 +63,5 @@
       value: etckeeper@homecentr.one
     - key: init.defaultBranch
       value: master
-    - key: branch.autoSetupMerge
-      value: always
+    - key: push.autoSetupRemote
+      value: "true"
