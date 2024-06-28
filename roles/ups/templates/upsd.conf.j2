@@ -1,6 +1,6 @@
 LISTEN 127.0.0.1
 LISTEN {{ ansible_hostname }}
-LISTEN {{ fqdn }}
+LISTEN {{ ansible_hostname }}.{{ domain }}
 
 ACL all 0.0.0.0/0
 ACL localhost 127.0.0.1/32
