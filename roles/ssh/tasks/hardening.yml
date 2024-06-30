@@ -48,7 +48,7 @@
     path: /etc/ssh/sshd_config
     marker: "# {mark} ANSIBLE MANAGED BLOCK"
     block: |
-      Match Host {{ ssh_allow_root_login_trusted_clients | map('extract', hostvars, 'ansible_host') | join(",") }}
+      Match Host {{ ssh_allow_root_login_trusted_clients | join(",") }}
         PubkeyAuthentication yes
         AllowUsers root
         PermitRootLogin without-password
