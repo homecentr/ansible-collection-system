@@ -1,0 +1,1 @@
+node_exporter_apt_info_url: "https://raw.githubusercontent.com/prometheus-community/node-exporter-textfile-collector-scripts/ab04a51e1a11696da7604be314696ffd87eda80d/apt_info.py"
