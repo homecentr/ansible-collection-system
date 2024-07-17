@@ -11,5 +11,5 @@
     group: root
     mode: "0644"
   with_items:
-    - 10-periodic
-    - 50-unattended-upgrades
+    - 10periodic
+    - 50unattended-upgrades
