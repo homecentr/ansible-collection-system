@@ -3,7 +3,9 @@ Unattended-Upgrade::Automatic-Reboot-Time "{{ unattended_upgrades_reboot_time }}
 
 Unattended-Upgrade::Allowed-Origins {
         "${distro_id} ${distro_codename}-security";
-//      "${distro_id} ${distro_codename}-updates";
+{% if not unattended_upgrades_additional_security_only %}
+        "${distro_id} ${distro_codename}-updates";
+{% endif %}
 {% for origin in unattended_upgrades_additional_origins %}
         "{{ origin }}";
 {% endfor %}
