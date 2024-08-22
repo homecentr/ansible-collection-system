@@ -5,7 +5,7 @@ positions:
   filename: /tmp/positions.yaml
 
 clients:
-- url: {{ promtail_loki_url }}/loki/api/v1/push
+- url: {{ promtail_loki_url }}
   external_labels:
     host: {{ inventory_hostname }}
   basic_auth:
