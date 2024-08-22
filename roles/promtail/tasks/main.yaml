@@ -11,14 +11,16 @@
     mode: "0644"
     content: "{{ lookup('template', 'config.j2') }}"
 
-- name: Grant promtail user to read journal
-  register: promtail_journal_group
+- name: Add promtail to groups granting access to log files and journal
+  register: promtail_user_groups
   ansible.builtin.user:
     name: promtail
-    groups: systemd-journal
+    groups:
+      - systemd-journal
+      - adm
     append: true
 
 - name: (Re)start promtail
   ansible.builtin.systemd:
     name: promtail
-    state: "{{ 'restarted' if promtail_config.changed or promtail_journal_group.changed else 'started' }}"
+    state: "{{ 'restarted' if promtail_config.changed or promtail_user_groups.changed else 'started' }}"
