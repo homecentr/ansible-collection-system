@@ -1,4 +1,13 @@
 {
+{% if docker_enable_nvidia_runtime %}
+ "runtimes": {
+      "nvidia": {
+          "args": [],
+          "path": "nvidia-container-runtime"
+      }
+  }
+{% endif %}
+
   "log-driver": "json-file",
   "log-opts": {
     "max-size": "{{ docker_logs_max_size }}",
