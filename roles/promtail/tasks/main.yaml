@@ -1,0 +1,24 @@
+- name: Configure apt and install packages
+  ansible.builtin.include_tasks:
+    file: apt.yaml
+
+- name: Configure promtail
+  register: promtail_config
+  ansible.builtin.copy:
+    dest: /etc/promtail/config.yml
+    owner: root
+    group: root
+    mode: "0644"
+    content: "{{ lookup('template', 'config.j2') }}"
+
+- name: Grant promtail user to read journal
+  register: promtail_journal_group
+  ansible.builtin.user:
+    name: promtail
+    groups: systemd-journal
+    append: true
+
+- name: (Re)start promtail
+  ansible.builtin.systemd:
+    name: promtail
+    state: "{{ 'restarted' if promtail_config.changed or promtail_journal_group.changed else 'started' }}"
