@@ -6,6 +6,8 @@ positions:
 
 clients:
 - url: {{ promtail_loki_url }}/loki/api/v1/push
+  external_labels:
+    host: {{ inventory_hostname }}
   basic_auth:
     username: {{ promtail_loki_basicauth_username }}
     password: {{ promtail_loki_basicauth_password }}
@@ -26,7 +28,6 @@ scrape_configs:
     static_configs:
      - labels:
          job: varlogs
-         host: promtail-test
          __path__: /var/log/*.log
 
 {% if promtail_docker_logs_enabled %}
@@ -36,6 +37,6 @@ scrape_configs:
           refresh_interval: 5s
     relabel_configs:
       - source_labels: ['__meta_docker_container_name']
-          regex: '/(.*)'
-          target_label: 'container'
+        regex: '/(.*)'
+        target_label: 'container'
 {% endif %}
