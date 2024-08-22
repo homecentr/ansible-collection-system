@@ -20,7 +20,16 @@
       - adm
     append: true
 
+- name: Add promtail to docker group
+  when: promtail_docker_logs_enabled
+  register: promtail_user_docker
+  ansible.builtin.user:
+    name: promtail
+    groups:
+      - docker
+    append: true
+
 - name: (Re)start promtail
   ansible.builtin.systemd:
     name: promtail
-    state: "{{ 'restarted' if promtail_config.changed or promtail_user_groups.changed else 'started' }}"
+    state: "{{ 'restarted' if promtail_config.changed or promtail_user_groups.changed or promtail_user_docker.changed else 'started' }}"
