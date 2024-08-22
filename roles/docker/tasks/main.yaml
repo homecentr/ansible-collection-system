@@ -1,3 +1,16 @@
+- name: Define Docker daemon options
+  ansible.builtin.set_fact:
+    docker_daemon_options:
+      log-driver: json-file
+      log-opts:
+        max-size: "{{ docker_logs_max_size }}"
+        max-file: "{{ docker_logs_max_files }}"
+
+- name: Define Docker daemon options for nvidia runtime
+  when: docker_enable_nvidia_runtime
+  ansible.builtin.set_fact:
+    docker_daemon_options: "{{ docker_daemon_options | combine(docker_daemon_options_nvidia) }}"
+
 - name: Install Docker
   ansible.builtin.import_role:
     name: geerlingguy.docker
@@ -8,17 +21,3 @@
     docker_service_state: started
     docker_install_compose: true
     docker_compose_package_state: present
-
-- name: Configure Docker daemon
-  register: docker_daemon_config
-  ansible.builtin.copy:
-    dest: /etc/docker/daemon.json
-    owner: root
-    group: root
-    mode: "0644"
-    content: "{{ lookup('template', 'daemon.json.j2') }}"
-
-- name: (Re)start Docker daemon
-  ansible.builtin.systemd:
-    name: docker
-    state: "{{ 'restarted' if docker_daemon_config.changed else 'started' }}"
