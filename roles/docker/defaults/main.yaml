@@ -1,0 +1,2 @@
+docker_logs_max_size: 10m
+docker_logs_max_files: 5

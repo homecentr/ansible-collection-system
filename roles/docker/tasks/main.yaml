@@ -1,0 +1,24 @@
+- name: Install Docker
+  ansible.builtin.import_role:
+    name: geerlingguy.docker
+  vars:
+    docker_edition: 'ce'
+    docker_add_repo: true
+    docker_packages_state: present
+    docker_service_state: started
+    docker_install_compose: true
+    docker_compose_package_state: present
+
+- name: Configure Docker daemon
+  register: docker_daemon_config
+  ansible.builtin.copy:
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: "0644"
+    content: "{{ lookup('template', 'daemon.json.j2') }}"
+
+- name: (Re)start Docker daemon
+  ansible.builtin.systemd:
+    name: docker
+    state: "{{ 'restarted' if docker_daemon_config.changed else 'started' }}"
