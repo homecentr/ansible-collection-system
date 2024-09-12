@@ -4,7 +4,9 @@ driver = {{ (ups_devices | selectattr('name', 'equalto', ups_name) | map(attribu
 port = {{ (ups_devices | selectattr('name', 'equalto', ups_name) | map(attribute='port'))[0] }}
 {% if 'vendor_id' in (ups_devices | selectattr('name', 'equalto', ups_name))[0] %}vendorid = {{ (ups_devices | selectattr('name', 'equalto', ups_name) | map(attribute='vendor_id'))[0] }}{% endif %}
 desc = {{ (ups_devices | selectattr('name', 'equalto', ups_name) | map(attribute='description'))[0] }}
-{% if 'low_battery_charge' in (ups_devices | selectattr('name', 'equalto', ups_name))[0] %}default.battery.charge.low = {{ (ups_devices | selectattr('name', 'equalto', ups_name) | map(attribute='low_battery_charge'))[0] }}{% endif %}
-{% if 'low_battery_runtime' in (ups_devices | selectattr('name', 'equalto', ups_name))[0] %}default.battery.charge.low = {{ (ups_devices | selectattr('name', 'equalto', ups_name) | map(attribute='low_battery_runtime'))[0] }}{% endif %}
+{% if 'low_battery_charge' in (ups_devices | selectattr('name', 'equalto', ups_name))[0] %}default.battery.charge.low = {{ (ups_devices | selectattr('name', 'equalto', ups_name) | map(attribute='low_battery_charge'))[0] }}
+{% endif %}
+{% if 'low_battery_runtime' in (ups_devices | selectattr('name', 'equalto', ups_name))[0] %}default.battery.runtime.low = {{ (ups_devices | selectattr('name', 'equalto', ups_name) | map(attribute='low_battery_runtime'))[0] }}
+{% endif %}
 
 {% endfor %}
