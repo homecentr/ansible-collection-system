@@ -2,7 +2,8 @@ maxretry = 5
 retrydelay = 5
 
 [local_monitor]
-upsmon master
+upsmon primary
 
 [observer]
 password = {{ ups_observer_password }}
+upsmon secondary

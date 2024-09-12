@@ -1,6 +1,6 @@
 RUN_AS_USER root
 
-MONITOR {{ ups_name }}@{{ hostvars[ups_server]['ansible_hostname'] }} 1 observer {{ ups_observer_password | mandatory }} slave
+MONITOR {{ ups_name }}@{{ hostvars[ups_server]['ansible_hostname'] }} 1 observer {{ ups_observer_password | mandatory }} secondary
 POWERDOWNFLAG /etc/killpower
 FINALDELAY {{ ups_shutdown_delay_seconds }}
 SHUTDOWNCMD "{{ ups_shutdown_command }}"
