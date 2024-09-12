@@ -1,5 +1,6 @@
 # ups_name
 # ups_observer_password
+# ups_alert_pagerduty_routing_key
 ups_shutdown_delay_seconds: 5
 ups_poll_frequency: 3
 ups_alert_poll_frequency: 1

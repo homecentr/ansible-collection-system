@@ -4,7 +4,9 @@ MONITOR {{ ups_name }}@{{ hostvars[ups_server]['ansible_hostname'] }} 1 observer
 POWERDOWNFLAG /etc/killpower
 FINALDELAY {{ ups_shutdown_delay_seconds }}
 SHUTDOWNCMD "{{ ups_shutdown_command }}"
+{% if ups_alert_pagerduty_routing_key | default('') != '' %}
 NOTIFYCMD "/usr/local/bin/ups-notify.sh"
+{% endif %}
 
 POLLFREQ {{ ups_poll_frequency }}
 POLLFREQALERT {{ ups_alert_poll_frequency }}

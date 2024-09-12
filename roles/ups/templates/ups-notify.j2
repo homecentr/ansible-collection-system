@@ -3,7 +3,7 @@
 set -e
 
 # NOTIFYTYPE is supplied by NUT
-PAGERDUTY_ROUTING_KEY="TBA"
+PAGERDUTY_ROUTING_KEY="{{ ups_alert_pagerduty_routing_key }}"
 UPS_NAME=$(cat /etc/ups)
 
 case $NOTIFYTYPE in
