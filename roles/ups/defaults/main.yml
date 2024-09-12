@@ -1,3 +1,6 @@
 # ups_name
 # ups_observer_password
-ups_shutdown_delay_seconds: 60
+ups_shutdown_delay_seconds: 5
+ups_poll_frequency: 3
+ups_alert_poll_frequency: 1
+ups_communication_list_repeat_time: 600
