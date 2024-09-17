@@ -5,7 +5,7 @@
     dest: /var/lib/nvidia-driver
     owner: root
     group: root
-    mode: "0644"
+    mode: "0750"
 
 - name: Check if driver already installed
   register: nvidia_driver_installed
