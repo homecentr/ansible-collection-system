@@ -1,0 +1,28 @@
+- name: Download driver
+  ansible.builtin.uri:
+    url: "https://us.download.nvidia.com/XFree86/Linux-x86_64/{{ nvidia_driver_version }}/NVIDIA-Linux-x86_64-{{ nvidia_driver_version }}.run"
+    dest: /var/lib/nvidia-driver
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Check if driver already installed
+  register: nvidia_driver_installed
+  changed_when: false
+  ansible.builtin.command:
+    cmd: nvidia-smi
+
+- name: Check driver version
+  register: nvidia_driver_installed_version
+  when: nvidia_driver_installed.rc == 0
+  changed_when: false
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      nvidia-smi --version | grep DRIVER | cut -d: -f2 | xargs
+
+- name: Install driver
+  when: nvidia_driver_installed.rc != 0 or nvidia_driver_installed_version.stdout != nvidia_driver_version
+  changed_when: true
+  ansible.builtin.command:
+    cmd: "/var/lib/nvidia-driver {{ nvidia_driver_install_args }}"

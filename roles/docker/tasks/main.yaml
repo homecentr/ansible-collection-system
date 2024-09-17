@@ -11,6 +11,11 @@
   ansible.builtin.set_fact:
     docker_daemon_options: "{{ docker_daemon_options | combine(docker_daemon_options_nvidia) }}"
 
+- name: Install nvidia container toolkit
+  when: docker_enable_nvidia_runtime
+  ansible.builtin.include_tasks:
+    file: nvidia.yaml
+
 - name: Install Docker
   ansible.builtin.import_role:
     name: geerlingguy.docker
