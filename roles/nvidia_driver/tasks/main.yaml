@@ -1,6 +1,7 @@
 - name: Download driver
-  ansible.builtin.uri:
+  ansible.builtin.get_url:
     url: "https://us.download.nvidia.com/XFree86/Linux-x86_64/{{ nvidia_driver_version }}/NVIDIA-Linux-x86_64-{{ nvidia_driver_version }}.run"
+    checksum: "sha256:{{ nvidia_driver_sha256 }}"
     dest: /var/lib/nvidia-driver
     owner: root
     group: root
@@ -26,4 +27,4 @@
   when: nvidia_driver_installed.rc != 0 or nvidia_driver_installed_version.stdout != nvidia_driver_version
   changed_when: true
   ansible.builtin.command:
-    cmd: "/var/lib/nvidia-driver {{ nvidia_driver_install_args }}"
+    cmd: "/var/lib/nvidia-driver --silent {{ nvidia_driver_install_args }}"

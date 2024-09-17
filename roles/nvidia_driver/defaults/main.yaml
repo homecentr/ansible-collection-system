@@ -1,2 +1,3 @@
 nvidia_driver_version: 550.90.07
+nvidia_driver_sha256: 51acf579d5a9884f573a1d3f522e7fafa5e7841e22a9cec0b4bbeae31b0b9733
 nvidia_driver_install_args: "--no-kernel-module"
