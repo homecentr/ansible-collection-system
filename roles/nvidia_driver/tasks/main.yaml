@@ -8,6 +8,7 @@
 
 - name: Check if driver already installed
   register: nvidia_driver_installed
+  failed_when: false
   changed_when: false
   ansible.builtin.command:
     cmd: nvidia-smi
