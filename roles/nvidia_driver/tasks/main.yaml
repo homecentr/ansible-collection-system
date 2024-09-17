@@ -22,6 +22,8 @@
     cmd: |
       set -o pipefail
       nvidia-smi --version | grep DRIVER | cut -d: -f2 | xargs
+    args:
+      executable: /bin/bash
 
 - name: Install driver
   when: nvidia_driver_installed.rc != 0 or nvidia_driver_installed_version.stdout != nvidia_driver_version

@@ -9,6 +9,8 @@
     cmd: |
       set -o pipefail
       curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
+    args:
+      executable: /bin/bash
 
 - name: Add apt repository
   ansible.builtin.apt_repository:
