@@ -16,7 +16,7 @@
   ansible.builtin.apt_repository:
     repo: "deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://nvidia.github.io/libnvidia-container/stable/deb/$(ARCH)"
     filename: nvidia-container-toolkit
-    udpate_cache: true
+    update_cache: true
     state: present
 
 - name: Install container toolkit
