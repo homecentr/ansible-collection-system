@@ -23,3 +23,10 @@
   ansible.builtin.apt:
     name: nvidia-container-toolkit
     state: present
+
+- name: Configure container toolkit
+  ansible.buitin.lineinfile:
+    path: /etc/nvidia-container-runtime/config.toml
+    create: false
+    regexp: "^#?\\W*no-cgroups\\W*=\\W*(true|false)"
+    line: "no-cgroups = true"
