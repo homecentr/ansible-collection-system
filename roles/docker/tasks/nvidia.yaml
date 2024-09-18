@@ -25,7 +25,7 @@
     state: present
 
 - name: Configure container toolkit
-  ansible.buitin.lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/nvidia-container-runtime/config.toml
     create: false
     regexp: "^#?\\W*no-cgroups\\W*=\\W*(true|false)"
