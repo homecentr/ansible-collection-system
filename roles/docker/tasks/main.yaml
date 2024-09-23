@@ -32,7 +32,7 @@
     state: directory
 
 - name: Configure systemd service
-  notify: Restart docker
+  register: docker_systemd_override
   ansible.builtin.lineinfile:
     path: /etc/systemd/system/docker.service.d/override.conf
     create: true
@@ -49,6 +49,11 @@
     docker_edition: 'ce'
     docker_add_repo: true
     docker_packages_state: present
-    docker_service_state: started
+    docker_service_state: reloaded
     docker_install_compose: true
     docker_compose_package_state: present
+
+- name: Start the systemd service
+  ansible.builtin.systemd_service:
+    name: docker
+    state: "{{ 'restarted' if docker_systemd_override.changed else 'started' }}"
