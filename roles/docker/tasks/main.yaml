@@ -5,6 +5,8 @@
       log-opts:
         max-size: "{{ docker_logs_max_size }}"
         max-file: "{{ docker_logs_max_files }}"
+      hosts:
+        - "unix:///var/run/docker.sock"
 
 - name: Enable access to Docker daemon over TCP
   when: docker_enable_tcp
@@ -31,3 +33,14 @@
     docker_service_state: started
     docker_install_compose: true
     docker_compose_package_state: present
+
+- name: Configure systemd service
+  notify: Restart docker
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/system/docker.service.d/override.conf
+    create: true
+    owner: root
+    group: root
+    mode: "0644"
+    regexp: "^ExecStart=.*"
+    line: "ExecStart=/usr/bin/dockerd --containerd=/run/containerd/containerd.sock"
