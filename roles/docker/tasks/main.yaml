@@ -49,11 +49,13 @@
     docker_edition: 'ce'
     docker_add_repo: true
     docker_packages_state: present
-    docker_service_state: reloaded
+    docker_service_manage: false
     docker_install_compose: true
     docker_compose_package_state: present
 
-- name: Start the systemd service
+- name: (Re)start the systemd service
   ansible.builtin.systemd_service:
     name: docker
+    enabled: true
+    daemon_reload: "{{ docker_systemd_override.changed }}"
     state: "{{ 'restarted' if docker_systemd_override.changed else 'started' }}"
