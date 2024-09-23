@@ -33,14 +33,15 @@
 
 - name: Configure systemd service
   register: docker_systemd_override
-  ansible.builtin.lineinfile:
+  community.general.ini_file:
     path: /etc/systemd/system/docker.service.d/override.conf
     create: true
     owner: root
     group: root
     mode: "0644"
-    regexp: "^ExecStart=.*"
-    line: "ExecStart=/usr/bin/dockerd --containerd=/run/containerd/containerd.sock"
+    section: Unit
+    option: ExecStart
+    value: "ExecStart=/usr/bin/dockerd --containerd=/run/containerd/containerd.sock"
 
 - name: Install Docker
   ansible.builtin.import_role:
