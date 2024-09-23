@@ -41,7 +41,7 @@
     mode: "0644"
     section: Unit
     option: ExecStart
-    value: "ExecStart=/usr/bin/dockerd --containerd=/run/containerd/containerd.sock"
+    value: "/usr/bin/dockerd --containerd=/run/containerd/containerd.sock"
 
 - name: Install Docker
   ansible.builtin.import_role:
