@@ -6,6 +6,11 @@
         max-size: "{{ docker_logs_max_size }}"
         max-file: "{{ docker_logs_max_files }}"
 
+- name: Enable access to Docker daemon over TCP
+  when: docker_enable_tcp
+  ansible.builtin.set_fact:
+    docker_daemon_options: "{{ docker_daemon_options | combine(docker_daemon_options_tcp) }}"
+
 - name: Define Docker daemon options for nvidia runtime
   when: docker_enable_nvidia_runtime
   ansible.builtin.set_fact:
