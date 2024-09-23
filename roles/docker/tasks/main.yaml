@@ -39,7 +39,7 @@
     owner: root
     group: root
     mode: "0644"
-    section: Unit
+    section: Service
     option: ExecStart
     value: "/usr/bin/dockerd --containerd=/run/containerd/containerd.sock"
 
