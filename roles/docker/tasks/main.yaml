@@ -1,0 +1,62 @@
+- name: Define Docker daemon options
+  ansible.builtin.set_fact:
+    docker_daemon_options:
+      log-driver: json-file
+      log-opts:
+        max-size: "{{ docker_logs_max_size }}"
+        max-file: "{{ docker_logs_max_files }}"
+      hosts:
+        - "unix:///var/run/docker.sock"
+
+- name: Enable access to Docker daemon over TCP
+  when: docker_enable_tcp
+  ansible.builtin.set_fact:
+    docker_daemon_options: "{{ docker_daemon_options | combine(docker_daemon_options_tcp) }}"
+
+- name: Define Docker daemon options for nvidia runtime
+  when: docker_enable_nvidia_runtime
+  ansible.builtin.set_fact:
+    docker_daemon_options: "{{ docker_daemon_options | combine(docker_daemon_options_nvidia) }}"
+
+- name: Install nvidia container toolkit
+  when: docker_enable_nvidia_runtime
+  ansible.builtin.include_tasks:
+    file: nvidia.yaml
+
+- name: Ensure the systemd directory exists
+  ansible.builtin.file:
+    path: /etc/systemd/system/docker.service.d
+    owner: root
+    group: root
+    mode: "0755"
+    state: directory
+
+- name: Configure systemd service
+  register: docker_systemd_override
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/docker.service.d/override.conf
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      [Service]
+      ExecStart=
+      ExecStart=/usr/bin/dockerd --containerd=/run/containerd/containerd.sock
+
+- name: Install Docker
+  ansible.builtin.import_role:
+    name: geerlingguy.docker
+  vars:
+    docker_edition: 'ce'
+    docker_add_repo: true
+    docker_packages_state: present
+    docker_service_manage: false
+    docker_install_compose: true
+    docker_compose_package_state: present
+
+- name: (Re)start the systemd service
+  ansible.builtin.systemd_service:
+    name: docker
+    enabled: true
+    daemon_reload: "{{ docker_systemd_override.changed }}"
+    state: "{{ 'restarted' if docker_systemd_override.changed else 'started' }}"

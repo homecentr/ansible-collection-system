@@ -2,10 +2,8 @@ maxretry = 5
 retrydelay = 5
 
 [local_monitor]
-password = {{ ups_slave_password }}
-upsmon master
-{% for server in groups['all'] %}
+upsmon primary
 
-[{{ hostvars[server]['ansible_hostname'] }}]
-password = {{ ups_slave_password }}
-{% endfor %}
+[observer]
+password = {{ ups_observer_password }}
+upsmon secondary

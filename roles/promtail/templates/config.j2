@@ -1,0 +1,42 @@
+server:
+  disable: true
+
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+- url: {{ promtail_loki_url }}
+  external_labels:
+    host: {{ inventory_hostname }}
+  basic_auth:
+    username: {{ promtail_loki_basicauth_username }}
+    password: {{ promtail_loki_basicauth_password }}
+
+scrape_configs:
+  - job_name: journal
+    journal:
+      json: true
+      max_age: 12h
+      path: /var/log/journal
+      labels:
+        job: systemd-journal
+    relabel_configs:
+      - source_labels: ['__journal__systemd_unit']
+        target_label: 'unit'
+
+  - job_name: varlogs
+    static_configs:
+     - labels:
+         job: varlogs
+         __path__: /var/log/*.log
+
+{% if promtail_docker_logs_enabled %}
+  - job_name: docker
+    docker_sd_configs:
+      - host: unix:///var/run/docker.sock
+        refresh_interval: 5s
+    relabel_configs:
+      - source_labels: ['__meta_docker_container_name']
+        regex: '/(.*)'
+        target_label: 'container'
+{% endif %}

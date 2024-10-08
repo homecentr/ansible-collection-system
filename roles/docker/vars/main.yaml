@@ -1,0 +1,10 @@
+docker_daemon_options_nvidia:
+  runtimes:
+    nvidia:
+      args: []
+      path: "nvidia-container-runtime"
+
+docker_daemon_options_tcp:
+  hosts:
+    - "tcp://0.0.0.0:2375"
+    - "unix:///var/run/docker.sock"

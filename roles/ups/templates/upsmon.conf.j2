@@ -1,4 +1,24 @@
-MONITOR {{ ups_name }}@{{ hostvars[ups_server]['ansible_hostname'] }} 1 {{ ansible_hostname }} {{ ups_slave_password | mandatory }} slave
+RUN_AS_USER root
+
+MONITOR {{ ups_name }}@{{ hostvars[ups_server]['ansible_hostname'] }} 1 observer {{ ups_observer_password | mandatory }} secondary
 POWERDOWNFLAG /etc/killpower
 FINALDELAY {{ ups_shutdown_delay_seconds }}
-SHUTDOWNCMD "/sbin/shutdown -h now"
+SHUTDOWNCMD "{{ ups_shutdown_command }}"
+{% if ups_alert_pagerduty_routing_key | default('') != '' %}
+NOTIFYCMD "/usr/local/bin/ups-notify.sh"
+{% endif %}
+
+POLLFREQ {{ ups_poll_frequency }}
+POLLFREQALERT {{ ups_alert_poll_frequency }}
+NOCOMMWARNTIME {{ ups_communication_list_repeat_time }}
+
+NOTIFYFLAG ONLINE   SYSLOG+WALL+EXEC
+NOTIFYFLAG ONBATT   SYSLOG+WALL+EXEC
+NOTIFYFLAG LOWBATT  SYSLOG+WALL+EXEC
+NOTIFYFLAG FSD  SYSLOG+WALL+EXEC
+NOTIFYFLAG COMMOK   SYSLOG+WALL+EXEC
+NOTIFYFLAG COMMBAD  SYSLOG+WALL+EXEC
+NOTIFYFLAG SHUTDOWN SYSLOG+WALL+EXEC
+NOTIFYFLAG REPLBATT SYSLOG+WALL+EXEC
+NOTIFYFLAG NOCOMM   SYSLOG+WALL+EXEC
+NOTIFYFLAG NOPARENT SYSLOG+WALL

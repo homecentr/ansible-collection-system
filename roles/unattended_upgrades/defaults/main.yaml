@@ -1,0 +1,5 @@
+unattended_upgrades_blacklist: []
+unattended_upgrades_additional_origins: []
+unattended_upgrades_reboot: false
+unattended_upgrades_reboot_time: "05:00"
+unattended_upgrades_additional_security_only: true

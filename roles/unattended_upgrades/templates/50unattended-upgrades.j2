@@ -1,0 +1,18 @@
+Unattended-Upgrade::Automatic-Reboot "{{ unattended_upgrades_reboot }}";
+Unattended-Upgrade::Automatic-Reboot-Time "{{ unattended_upgrades_reboot_time }}";
+
+Unattended-Upgrade::Allowed-Origins {
+        "${distro_id} ${distro_codename}-security";
+{% if not unattended_upgrades_additional_security_only %}
+        "${distro_id} ${distro_codename}-updates";
+{% endif %}
+{% for origin in unattended_upgrades_additional_origins %}
+        "{{ origin }}";
+{% endfor %}
+};
+
+Unattended-Upgrade::Package-Blacklist{
+{% for package in unattended_upgrades_blacklist %}
+      "{{package}}";
+{% endfor %}
+}

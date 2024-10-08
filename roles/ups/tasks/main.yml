@@ -16,6 +16,14 @@
   ansible.builtin.set_fact:
     ups_server: "{{ (ups_devices | selectattr('name', 'equalto', ups_name) | map(attribute='monitored_by'))[0] }}"
 
+- name: Create notification script
+  ansible.builtin.copy:
+    dest: /usr/local/bin/ups-notify.sh
+    owner: root
+    group: root
+    mode: "0770"
+    content: "{{ lookup('template', 'ups-notify.j2') }}"
+
 - name: Configure UPS Monitor mode
   notify: Restart ups_monitor
   ansible.builtin.copy:

@@ -1,0 +1,67 @@
+- name: Install required packages
+  ansible.builtin.apt:
+    name: etckeeper
+    state: present
+
+- name: Create .ssh directory
+  ansible.builtin.file:
+    path: /root/.ssh
+    owner: root
+    group: root
+    mode: "0700"
+    state: directory
+
+- name: Generate ssh key
+  community.crypto.openssh_keypair:
+    path: /root/.ssh/etckeeper
+    size: 2048
+
+- name: Configure ssh to use key for github
+  ansible.builtin.blockinfile:
+    path: /root/.ssh/config
+    create: true
+    owner: root
+    group: root
+    mode: "0640"
+    block: |
+      Host github.com
+        User git
+        IdentityFile /root/.ssh/etckeeper
+
+- name: Configure etckeeper
+  ansible.builtin.lineinfile:
+    path: /etc/etckeeper/etckeeper.conf
+    regexp: "^{{ item.key }}=.*"
+    line: "{{ item.key }}={{ item.value }}"
+    create: false
+  loop:
+    - key: "PUSH_REMOTE"
+      value: "origin"
+    - key: "VCS"
+      value: "git"
+
+- name: Enable automatic commit service
+  ansible.builtin.service:
+    name: etckeeper.timer
+    state: started
+
+- name: Initialize git repository
+  ansible.builtin.command:
+    chdir: /etc
+    cmd: etckeeper init
+    creates: /etc/.git
+
+- name: Configure git
+  community.general.git_config:
+    repo: /etc
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+  loop:
+    - key: user.name
+      value: etckeeper
+    - key: user.email
+      value: etckeeper@homecentr.one
+    - key: init.defaultBranch
+      value: master
+    - key: push.autoSetupRemote
+      value: "true"
