@@ -1,6 +1,6 @@
 - name: Make sure curl is installed
   ansible.builtin.apt:
-    name: 
+    name:
       - curl
       - gpg
     state: present
