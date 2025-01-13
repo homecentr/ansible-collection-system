@@ -4,6 +4,7 @@
 # users_admin_keys
 # users_root_password
 # users_root_password_salt
+users_install_sudo: true
 
 users_admin_passwordless_sudo: true
 users_admin_groups:

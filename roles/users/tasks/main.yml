@@ -1,4 +1,5 @@
 - name: Install sudo
+  when: users_install_sudo
   ansible.builtin.apt:
     name: sudo
     state: present
