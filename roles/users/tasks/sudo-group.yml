@@ -1,0 +1,10 @@
+- name: Create sudo group
+  ansible.builtin.group:
+    name: sudo
+
+- name: Grant permissions to sudo for all members of the sudo group
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers
+    state: present
+    line: "# %sudo	ALL=(ALL:ALL) ALL"
+    validate: 'visudo -cf %s'
