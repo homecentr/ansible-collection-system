@@ -2,3 +2,5 @@
 ssh_allow_root_login: "no"
 ssh_allow_password_login: "no"
 ssh_port: 22
+ssh_fail2ban_enabled: true
+ssh_daemon_name: ssh

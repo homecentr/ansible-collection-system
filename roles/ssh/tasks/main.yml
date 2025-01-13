@@ -3,5 +3,6 @@
     file: hardening.yml
 
 - name: Install and configure fail2ban
+  when: ssh_fail2ban_enabled
   ansible.builtin.include_tasks:
     file: fail2ban.yml

@@ -1,6 +1,6 @@
 - name: Ensure SSH daemon is running.
   ansible.builtin.service:
-    name: ssh
+    name: "{{ ssh_daemon_name }}"
     state: started
 
 - name: Update SSH configuration to be more secure
